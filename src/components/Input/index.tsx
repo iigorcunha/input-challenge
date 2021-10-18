@@ -1,7 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState, FocusEvent } from "react"
 import { convertStringToNumber } from "../../lib/convertStringToNumber";
 import { formatCurrency } from "../../lib/formatCurrency";
-import { FiAlertCircle } from 'react-icons/fi';
+import { FiAlertCircle, FiInfo } from 'react-icons/fi';
 import { 
   Container, 
   InputBase, 
@@ -12,6 +12,7 @@ import {
   ErrorContainer, 
   ErrorLabel,
   InputResultContainer,
+  TitleContainer,
 } from "./styles"
 
 const mortgage = {
@@ -138,7 +139,10 @@ export const Input = () => {
   return (
     <Container>
       <LabelContainer>
-        <Title>Mortgage</Title>
+        <TitleContainer>
+          <Title>Mortgage</Title>
+          <FiInfo size={16} color={'#343a40'} />
+        </TitleContainer>
         <Button>Regular</Button>
       </LabelContainer>
       <InputBase

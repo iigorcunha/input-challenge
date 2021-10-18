@@ -21,8 +21,16 @@ export const LabelContainer = styled.div`
   justify-content: space-between;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Title = styled.span`
   font-weight: 600;
+  margin-right: 0.375rem;
+  color: #343a40;
 `;
 
 export const Button = styled.button`
