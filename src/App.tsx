@@ -1,12 +1,11 @@
-import { Home } from './pages/Home'
-import GlobalStyle from './styles/global'
+import { Home } from './pages/Home';
+import GlobalStyle from './styles/global';
 
-
-export function App() {
+export function App(): JSX.Element {
   return (
     <>
       <GlobalStyle />
       <Home />
     </>
-  )
+  );
 }

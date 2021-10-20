@@ -1,3 +1,3 @@
-export const convertStringToNumber = (value: string ) => {
-  return Number(value.replace(/\D/g,''))
-}
+export const convertStringToNumber = (value: string): number => {
+  return Number(value.replace(/\D/g, ''));
+};

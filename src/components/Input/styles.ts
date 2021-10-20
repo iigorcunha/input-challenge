@@ -89,6 +89,5 @@ export const InputBase = styled.input<InputBaseProps>`
   outline: none;
   border-width: 2px;
   border-style: solid;
-  border-color: ${({ isFocused }) => isFocused ? '#2b9348' : '#343a40'}
-
+  border-color: ${({ isFocused }) => (isFocused ? '#2b9348' : '#343a40')};
 `;
