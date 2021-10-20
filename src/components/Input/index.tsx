@@ -77,8 +77,8 @@ export const Input = (): JSX.Element => {
   }
 
   function handleValue(e: ChangeEvent<HTMLInputElement>): void {
-    if (e.currentTarget.value.length === 23) {
-      setInputError('You reached the maximum number of digits.');
+    if (e.currentTarget.value.length >= 23) {
+      setInputError('The maximum is 16 digits.');
       return;
     }
 
@@ -94,7 +94,6 @@ export const Input = (): JSX.Element => {
     } else {
       setValue(formattedValue);
     }
-
     // Check if selectionStart and selectionEnd are not null
     if (
       e.currentTarget.selectionStart !== null &&
@@ -109,10 +108,10 @@ export const Input = (): JSX.Element => {
         // check if a comma is added.
       } else if (e.currentTarget.value.length === formattedValue.length + 1) {
         // Check if the position is the first to avoid cursor go before the dollar symbol
-        if (e.currentTarget.selectionEnd === 1) {
+        if (e.currentTarget.selectionStart === 1) {
           setCursorPos({
-            selectionStart: e.currentTarget.selectionStart - 1,
-            selectionEnd: e.currentTarget.selectionEnd - 1,
+            selectionStart: e.currentTarget.selectionStart,
+            selectionEnd: e.currentTarget.selectionEnd,
           });
         } else {
           setCursorPos({
@@ -120,10 +119,15 @@ export const Input = (): JSX.Element => {
             selectionEnd: e.currentTarget.selectionEnd - 1,
           });
         }
-      } else {
+      } else if (e.currentTarget.value.length === formattedValue.length) {
         setCursorPos({
           selectionStart: e.currentTarget.selectionStart,
           selectionEnd: e.currentTarget.selectionEnd,
+        });
+      } else {
+        setCursorPos({
+          selectionStart: formattedValue.length,
+          selectionEnd: formattedValue.length,
         });
       }
     }
@@ -167,7 +171,7 @@ export const Input = (): JSX.Element => {
         name="mortgage"
         type="text"
         onClick={() => handleFocus()}
-        placeholder={isFocused ? previousValue : ''}
+        placeholder={previousValue}
         value={value}
         onKeyDown={e => handleKeyboardSubmit(e)}
         onChange={e => handleValue(e)}
