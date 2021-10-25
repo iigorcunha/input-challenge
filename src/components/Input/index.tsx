@@ -82,13 +82,13 @@ export const Input = (): JSX.Element => {
   }
 
   function handleValue(e: ChangeEvent<HTMLInputElement>): void {
-    if (e.currentTarget.value.length >= 23) {
+    // Remove all characters that are not a number;
+    const numberValue = convertStringToNumber(e.currentTarget?.value);
+
+    if (numberValue.toString().length > 16) {
       setInputError('The maximum is 16 digits.');
       return;
     }
-
-    // Remove all characters that are not a number;
-    const numberValue = convertStringToNumber(e.currentTarget?.value);
 
     // Format value in Canadian Dollar without decimals.
     const formattedValue = formatCurrency(numberValue);
