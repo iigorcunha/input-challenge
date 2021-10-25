@@ -182,8 +182,7 @@ export const Input = (): JSX.Element => {
         name="mortgage"
         onBlur={e => handleBlur(e)}
         type="text"
-        enterKeyHint="next"
-        // inputMode="numeric"
+        inputMode="numeric"
         onClick={() => handleFocus()}
         placeholder={previousValue}
         value={value}
