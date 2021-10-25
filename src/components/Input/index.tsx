@@ -1,4 +1,11 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+  FocusEvent,
+} from 'react';
 import { FiAlertCircle, FiInfo } from 'react-icons/fi';
 import { convertStringToNumber } from '../../lib/convertStringToNumber';
 import { formatCurrency } from '../../lib/formatCurrency';
@@ -31,6 +38,7 @@ export const Input = (): JSX.Element => {
     selectionEnd: 0,
   });
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (inputRef.current !== null) {
@@ -68,11 +76,8 @@ export const Input = (): JSX.Element => {
         inputRef.current?.blur();
       }
     } else if (e.key === 'Escape') {
+      inputRef.current?.setAttribute('key', e.key);
       inputRef.current?.blur();
-      setValue('');
-      setValueWithInterest('');
-      setInputError('');
-      setIsFocused(false);
     }
   }
 
@@ -141,23 +146,28 @@ export const Input = (): JSX.Element => {
     setValueWithInterest('');
   }
 
-  useEffect(() => {
-    // Listen every click on page and check if the inputRef is the same as target;
-    document.addEventListener('mousedown', e => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        if (inputRef.current?.value.length > 0) {
-          setPreviousValue(inputRef.current?.value);
-          calculateInterestRate(inputRef.current?.value);
-        }
+  function handleBlur(e: FocusEvent<HTMLInputElement>): void {
+    const key = e.currentTarget.getAttribute('key');
 
-        setInputError('');
-        setIsFocused(false);
+    if (key === 'Escape') {
+      setValue('');
+      setValueWithInterest('');
+      setInputError('');
+      setIsFocused(false);
+      e.currentTarget.setAttribute('key', '');
+    } else {
+      if (e.currentTarget.value.length > 0) {
+        setPreviousValue(e.currentTarget.value);
+        calculateInterestRate(e.currentTarget.value);
       }
-    });
-  }, [inputRef]);
+
+      setInputError('');
+      setIsFocused(false);
+    }
+  }
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       <LabelContainer>
         <TitleContainer>
           <Title>Mortgage</Title>
@@ -165,11 +175,15 @@ export const Input = (): JSX.Element => {
         </TitleContainer>
         <Button>Regular</Button>
       </LabelContainer>
+
       <InputBase
         ref={inputRef}
         isFocused={isFocused}
         name="mortgage"
+        onBlur={e => handleBlur(e)}
         type="text"
+        enterKeyHint="next"
+        // inputMode="numeric"
         onClick={() => handleFocus()}
         placeholder={previousValue}
         value={value}
